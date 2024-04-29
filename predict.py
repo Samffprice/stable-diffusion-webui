@@ -44,7 +44,7 @@ class Predictor(BasePredictor):
         """
         Load the model into memory to make running multiple predictions efficient
         """
-        from main import pre_setup
+        from launch import pre_setup
         pre_setup()
 
     def predict(

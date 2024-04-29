@@ -153,7 +153,7 @@ def pre_setup():
         preload_pipeline = True
         queue_size = 100
         queue_history = 0
-        preset = "default"
+        preset = "initial"
         webhook_url = None
         persistent = False
         always_gpu = False
