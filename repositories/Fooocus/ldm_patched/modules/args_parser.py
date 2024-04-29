@@ -33,8 +33,8 @@ class EnumAction(argparse.Action):
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument("--listen", type=str, default="127.0.0.1", metavar="IP", nargs="?", const="0.0.0.0")
-parser.add_argument("--port", type=int, default=8188)
+parser.add_argument("--listen", type=str, default="0.0.0.0", metavar="IP", nargs="?", const="0.0.0.0")
+parser.add_argument("--port", type=int, default=7860)
 parser.add_argument("--disable-header-check", type=str, default=None, metavar="ORIGIN", nargs="?", const="*")
 parser.add_argument("--web-upload-size", type=float, default=100)
 
@@ -96,7 +96,7 @@ parser.add_argument("--disable-xformers", action="store_true")
 
 vram_group = parser.add_mutually_exclusive_group()
 vram_group.add_argument("--always-gpu", action="store_true")
-vram_group.add_argument("--always-high-vram", action="store_true")
+vram_group.add_argument("--always-high-vram", default=True, action="store_true")
 vram_group.add_argument("--always-normal-vram", action="store_true")
 vram_group.add_argument("--always-low-vram", action="store_true")
 vram_group.add_argument("--always-no-vram", action="store_true")
