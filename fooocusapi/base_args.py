@@ -16,7 +16,7 @@ def add_base_args(parser: ArgumentParser, before_prepared: bool):
         parser.add_argument("--port", type=int, default=7860, help="Set the listen port, default: 8888")
 
     parser.add_argument("--host", type=str, default='0.0.0.0', help="Set the listen host, default: 127.0.0.1")
-    parser.add_argument("--base-url", type=str, default='34.106.112.158', help="Set base url for outside visit, default is http://host:port")
+    parser.add_argument("--base-url", type=str, default=None, help="Set base url for outside visit, default is http://host:port")
     parser.add_argument("--log-level", type=str, default='info', help="Log info for Uvicorn, default: info")
     parser.add_argument("--skip-pip", default=False, action="store_true", help="Skip automatic pip install when setup")
     parser.add_argument("--preload-pipeline", default=False, action="store_true", help="Preload pipeline before start http server")

@@ -96,7 +96,7 @@ parser.add_argument("--disable-xformers", action="store_true")
 
 vram_group = parser.add_mutually_exclusive_group()
 vram_group.add_argument("--always-gpu", action="store_true")
-vram_group.add_argument("--always-high-vram", default=True, action="store_true")
+vram_group.add_argument("--always-high-vram", action="store_true")
 vram_group.add_argument("--always-normal-vram", action="store_true")
 vram_group.add_argument("--always-low-vram", action="store_true")
 vram_group.add_argument("--always-no-vram", action="store_true")

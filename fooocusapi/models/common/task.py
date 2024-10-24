@@ -58,3 +58,4 @@ class GeneratedImageResult(BaseModel):
     url: str | None = Field(description="Image file static serve url, or null if finishReason is not 'SUCCESS'")
     seed: str = Field(description="The seed associated with this image")
     finish_reason: GenerationFinishReason
+    ip: str | None = Field(description="The IP address of the worker that generated this image, only return when request require IP")

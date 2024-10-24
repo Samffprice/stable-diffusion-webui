@@ -12,6 +12,7 @@ from modules.sdxl_styles import legal_style_names
 from fooocusapi.args import args
 from fooocusapi.utils.img_utils import read_input_image
 from fooocusapi.utils.file_utils import (
+    get_public_ip,
     get_file_serve_url,
     output_file_to_base64img,
     output_file_to_bytesimg
@@ -243,7 +244,9 @@ def generate_async_output(
         job_progress=task.finish_progress,
         job_status=task.task_status,
         job_step_preview=task.task_step_preview if require_step_preview else None,
-        job_result=job_result)
+        job_result=job_result,
+        ip=get_public_ip()
+    )
     return result
 
 
@@ -285,7 +288,8 @@ def generate_image_result_output(
             base64=output_file_to_base64img(item.im) if require_base64 else None,
             url=get_file_serve_url(item.im),
             seed=str(item.seed),
-            finish_reason=item.finish_reason
+            finish_reason=item.finish_reason,
+            ip=get_public_ip()
             ) for item in results
         ]
     return results

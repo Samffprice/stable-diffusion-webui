@@ -15,7 +15,8 @@ __pycache__
 *.patch
 *.backup
 *.corrupted
-
+/repositories/Fooocus/models/checkpoints/*
+/repositories/Fooocus/models/clip_vision/*
 # environment
 venv
 .venv

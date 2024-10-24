@@ -4,7 +4,6 @@
 from typing import List, Optional
 from fastapi import APIRouter, Depends, Header, Query, UploadFile
 from fastapi.params import File
-
 from modules.util import HWC3
 
 from fooocusapi.models.common.base import DescribeImageType
@@ -174,7 +173,54 @@ def describe_image(
     result = interrogator(img)
     return DescribeImageResponse(describe=result)
 
+from extras.inpaint_mask import generate_mask_from_image
 
+import io
+import numpy as np
+import base64
+from PIL import Image
+from io import BytesIO
+
+@secure_router.post(
+    path="/v1/tools/generate-mask",
+    tags=["GenerateV1"])
+async def generate_mask_route(
+        image: UploadFile,
+        mask_model: Optional[str] = 'isnet-general-use',
+        cloth_category: Optional[str] = "full",
+        sam_prompt_text: Optional[str] = None,
+        sam_model: Optional[str] = 'sam_vit_b_01ec64',
+        sam_quant: Optional[str] = 'False',
+        box_threshold: Optional[float] = .3,
+        text_threshold: Optional[float] = .25, ):
+    """
+    Generate a mask from an image
+    ...
+    """
+    image_data = await image.read()
+    image_data = Image.open(io.BytesIO(image_data))
+    image_data = np.array(image_data)
+
+    extras = {}
+    if mask_model == 'u2net_cloth_seg':
+        extras['cloth_category'] = cloth_category
+    elif mask_model == 'sam':
+        extras['sam_prompt_text'] = sam_prompt_text
+        extras['sam_model'] = sam_model
+        extras['sam_quant'] = sam_quant
+        extras['box_threshold'] = box_threshold
+        extras['text_threshold'] = text_threshold
+
+    mask = generate_mask_from_image(image_data, mask_model, extras)
+
+    # Convert the mask to a base64 string
+    mask_image = Image.fromarray(mask)
+    buffered = BytesIO()
+    mask_image.save(buffered, format="PNG")
+    mask_base64 = base64.b64encode(buffered.getvalue()).decode()
+
+    return {"filename": image.filename, "mask": mask_base64}
+    
 @secure_router.post(
         path="/v1/generation/stop",
         response_model=StopResponse,

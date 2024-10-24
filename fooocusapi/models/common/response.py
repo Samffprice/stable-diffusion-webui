@@ -40,6 +40,7 @@ class AsyncJobResponse(BaseModel):
     job_status: str | None = Field(None, description="Job running status in text")
     job_step_preview: str | None = Field(None, description="Preview image of generation steps at current time, as base64 image")
     job_result: List[GeneratedImageResult] | None = Field(None, description="Job generation result")
+    ip: str | None = Field(None, description="The IP address of the worker that generated this image, only return when request require IP")
 
 
 class JobQueueInfo(BaseModel):
